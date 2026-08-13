@@ -10,10 +10,18 @@
     };
   };
 
-  outputs = { self, nixpkgs, colmena }:
+  outputs = inputs @ { self, nixpkgs, colmena, ...}:
   let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
+
+    vars = import ./vars.nix;
+
+    mkNixOSConfig = path:
+      nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs vars; };
+        modules = [ path ];
+      };
   in
   {
     devShells.${system}.default = 
@@ -21,6 +29,13 @@
 
     colmenaHive = colmena.lib.makeHive {
       meta.nixpkgs = pkgs;
+    };
+
+    iso1ishtar = nixpkgs.lib.nixosSystem {
+      specialArgs = { inherit inputs vars; };
+      modules = [
+        ./iso/config.nix
+      ];
     };
   };
 }
