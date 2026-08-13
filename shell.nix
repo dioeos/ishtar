@@ -4,6 +4,7 @@ pkgs.mkShell {
   packages = with pkgs; [
     nixd
     nixfmt
+    colmena
   ];
 
   shellHook = ''
