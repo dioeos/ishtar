@@ -4,6 +4,7 @@
   imports = [
     "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
     ./packages.nix
+    ./install-script.nix
   ];
 
   nixpkgs.hostPlatform = { system = "x86_64-linux"; };

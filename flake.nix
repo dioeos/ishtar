@@ -8,19 +8,27 @@
       url = "github:zhaofengli/colmena";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    disko = {
+      url = "github:nix-community/disko/latest";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs @ { self, nixpkgs, colmena, ...}:
+  outputs = inputs @ { self, nixpkgs, colmena, disko, ...}:
   let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
 
     vars = import ./vars.nix;
 
-    mkNixOSConfig = path:
+    mkNixOSConfig = hostConfig:
       nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs vars; };
-        modules = [ path ];
+        modules = [ 
+          hostConfig
+          disko.nixosModules.disko
+        ];
       };
   in
   {
@@ -31,11 +39,14 @@
       meta.nixpkgs = pkgs;
     };
 
-    iso1ishtar = nixpkgs.lib.nixosSystem {
-      specialArgs = { inherit inputs vars; };
-      modules = [
-        ./iso/config.nix
-      ];
+    nixosConfigurations = {
+      ishtar1 = mkNixOSConfig ./machines/ishtar1/configuration.nix;
+      iso1ishtar = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs vars; };
+        modules = [
+          ./iso/config.nix
+        ];
+      };
     };
   };
 }
