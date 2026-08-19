@@ -1,7 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   environment.systemPackages = [
+    inputs.disko.packages.${pkgs.system}.disko
+
     (pkgs.writeShellScriptBin "ishtar-install" ''
       set -euo pipefail
 
