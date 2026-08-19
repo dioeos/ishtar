@@ -17,6 +17,7 @@
         echo
         echo "Run:"
         echo "  sudo ishtar-install $TARGET_HOST"
+        exit 1
       fi
 
       echo "=========================================="
@@ -38,7 +39,7 @@
 
       echo "Repository successfully cloned, continuing..."
 
-      HOST_DIR="./hosts/$TARGET_HOST"
+      HOST_DIR="./machines/$TARGET_HOST"
       DISKO_CONFIG="$HOST_DIR/disko.nix"
 
       if [ ! -d "$HOST_DIR" ]; then
@@ -47,7 +48,7 @@
         exit 1
       fi
 
-      if [ ! -d "$HOST_DIR" ]; then
+      if [ ! -f "$DISKO_CONFIG" ]; then
         echo "Error: Disko configuration does not exist:"
         echo "  $DISKO_CONFIG"
         exit 1
@@ -69,10 +70,10 @@
       echo
       echo "  $DISKO_CONFIG"
       echo
-      echo -r -p "Continue? [y/N] " response
+      read -r -p "Continue? [y/N] " response
 
       case "$response" in
-        y|Y||yes|YES)
+        y|Y|yes|YES)
           ;;
         *)
           echo "Installation cancelled."
@@ -89,7 +90,7 @@
       echo "Disko configuration complete."
 
       echo "=========================================="
-      echo "Installing the selected NixOS configuration
+      echo "Installing the selected NixOS configuration"
       echo "=========================================="
 
       nixos-install \
