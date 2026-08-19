@@ -11,15 +11,4 @@
   ];
 
   networking.hostName = "ishtar1";
-
-  deployment = {
-    targetHost = "192.168.1.51";
-    targetUser = "dio";
-    sshOptions = [
-      "-i"
-      "/home/dio/.ssh/ishtar_user"
-      "-o"
-      "IdentitiesOnly=yes"
-    ];
-  };
 }
