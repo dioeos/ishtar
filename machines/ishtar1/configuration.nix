@@ -4,8 +4,6 @@
   imports = [
     ../../modules/nixos/base.nix
 
-    ../../modules/services/cowsay.nix
-
     ./disko.nix
     ./hardware-configuration.nix
   ];
