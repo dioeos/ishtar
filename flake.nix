@@ -30,17 +30,32 @@
           disko.nixosModules.disko
         ];
       };
+
+    ishtar1path = ./machines/ishtar1/configuration.nix;
   in
   {
     devShells.${system}.default = 
-      import ./shell.nix { inherit pkgs; };
+      import ./shell.nix { 
+        inherit pkgs; 
+        colmena = colmena.packages.${system}.colmena;
+      };
 
     colmenaHive = colmena.lib.makeHive {
-      meta.nixpkgs = pkgs;
+      meta = {
+        nixpkgs = pkgs;
+        specialArgs = { inherit inputs vars; };
+      };
+
+      ishtar1 = {
+        imports = [
+          ishtar1path
+          disko.nixosModules.disko
+        ];
+      };
     };
 
     nixosConfigurations = {
-      ishtar1 = mkNixOSConfig ./machines/ishtar1/configuration.nix;
+      ishtar1 = mkNixOSConfig ishtar1path;
       iso1ishtar = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs vars; };
         modules = [

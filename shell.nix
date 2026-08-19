@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> }:
+{ pkgs ? import <nixpkgs> {}, colmena }:
 
 pkgs.mkShell {
   packages = with pkgs; [
