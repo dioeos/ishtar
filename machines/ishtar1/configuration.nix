@@ -20,6 +20,6 @@
       "/etc/ssh/ssh_host_ed25519_key"
     ];
 
-    sops.secrets.tailscale-auth-key = {};
+    secrets.tailscale-auth-key = {};
   };
 }
