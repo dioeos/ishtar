@@ -1,4 +1,9 @@
-{ pkgs, vars, ... }: 
+{
+  pkgs,
+  vars,
+  config,
+  ...
+}:
 
 {
   environment.systemPackages = with pkgs; [
@@ -26,28 +31,40 @@
     settings = {
       experimental-features = "nix-command flakes";
       auto-optimise-store = true;
-      trusted-users = [ "root" "dio" ];
     };
   };
 
   users.mutableUsers = false;
-  users.users.${vars.userName} = {
-    isNormalUser = true;
-    description = vars.userName;
-    extraGroups = [ "networkmanager" "wheel" ];
-    openssh.authorizedKeys.keys = [
-      vars.sshPublicKeyIshtarUser
-    ];
-    shell = pkgs.zsh;
+  users.users = {
+    root = {
+      openssh.authorizedKeys.keys = [
+        vars.sshPublicKeyIshtar
+      ];
+    };
+    ${vars.userName} = {
+      isNormalUser = true;
+      description = vars.userName;
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+      ];
+      openssh.authorizedKeys.keys = [
+        vars.sshPublicKeyIshtarUser
+      ];
+      shell = pkgs.zsh;
+      hashedPasswordFile = config.sops.secrets.dio-password.path;
+    };
   };
 
-  security.sudo.wheelNeedsPassword = false;
+  security.sudo.wheelNeedsPassword = true;
 
   services = {
+
     openssh = {
       enable = true;
       settings = {
-        PermitRootLogin = "no";
+        #root can only use ssh key
+        PermitRootLogin = "prohibit-password";
         PasswordAuthentication = false;
       };
       openFirewall = true;
