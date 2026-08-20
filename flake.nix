@@ -13,6 +13,16 @@
       url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    arion = {
+      url = "github:hercules-ci/arion";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -21,6 +31,8 @@
       nixpkgs,
       colmena,
       disko,
+      arion,
+      sops-nix,
       ...
     }:
     let
@@ -36,6 +48,8 @@
           modules = [
             hostConfig
             disko.nixosModules.disko
+            arion.nixosModules.arion
+            sops-nix.nixosModules.sops
           ];
         };
 
@@ -57,6 +71,8 @@
           imports = [
             ishtar1path
             disko.nixosModules.disko
+            arion.nixosModules.arion
+            sops-nix.nixosModules.sops
           ];
 
           deployment = {

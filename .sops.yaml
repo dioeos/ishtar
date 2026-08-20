@@ -1,0 +1,9 @@
+keys:
+  - &dio age1gfc268tsu6waatk7483x4cy8cujxqm5xpwh2ek782wyw58d9h5nstjgr5c
+  - &ishtar1 age182t47ye2rtkqp62rz24zzf6g2thhq5sfr5lcx7w6659lrfmtt90sstv3pm
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+          - *dio
+          - *ishtar1
