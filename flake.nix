@@ -77,10 +77,10 @@
 
           deployment = {
             targetHost = "192.168.1.51";
-            targetUser = "dio";
+            targetUser = "root";
             sshOptions = [
               "-i"
-              "/home/dio/.ssh/ishtar_user"
+              "/home/dio/.ssh/ishtar"
               "-o"
               "IdentitiesOnly=yes"
             ];

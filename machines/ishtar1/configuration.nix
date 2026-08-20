@@ -4,6 +4,8 @@
   imports = [
     ../../modules/nixos/base.nix
 
+    # ../../modules/services/cowsay.nix
+
     ../../modules/services/containers.nix
     ../../modules/services/tailscale.nix
     ../../modules/services/obsidian-fast-note-sync.nix
