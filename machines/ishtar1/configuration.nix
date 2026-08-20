@@ -6,6 +6,7 @@
 
     ../../modules/services/containers.nix
     ../../modules/services/tailscale.nix
+    ../../modules/services/obsidian-fast-note-sync.nix
 
     ./disko.nix
     ./hardware-configuration.nix
