@@ -36,32 +36,41 @@
       ...
     }:
     let
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      workstation_system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${workstation_system};
 
       vars = import ./vars.nix;
 
       mkNixOSConfig =
-        hostConfig:
+        {
+          hostConfig,
+          hostPlatform ? "x86_64-linux",
+          extraModules ? [ ],
+          extraOverlays ? [ ]
+        }:
         nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs vars; };
+
           modules = [
+            {
+              nixpkgs.hostPlatform = hostPlatform;
+              nixpkgs.overlays = extraOverlays;
+            }
             hostConfig
-            disko.nixosModules.disko
-            arion.nixosModules.arion
             sops-nix.nixosModules.sops
-          ];
+          ]
+          ++ extraModules;
         };
 
       ishtar1path = ./machines/ishtar1/configuration.nix;
     in
     {
-      devShells.${system}.default = import ./shell.nix {
+      devShells.${workstation_system}.default = import ./shell.nix {
         inherit pkgs;
-        colmena = colmena.packages.${system}.colmena;
+        colmena = colmena.packages.${workstation_system}.colmena;
       };
 
-      checks.${system} = import ./tests { inherit pkgs; };
+      checks.${workstation_system} = import ./tests { inherit pkgs; };
 
       colmenaHive = colmena.lib.makeHive {
         meta = {
@@ -91,7 +100,21 @@
       };
 
       nixosConfigurations = {
-        ishtar1 = mkNixOSConfig ishtar1path;
+        ishtar1 = mkNixOSConfig {
+          hostConfig = ./machines/ishtar1/configuration.nix;
+          hostPlatform = "x86_64-linux";
+
+          extraModules = [
+            disko.nixosModules.disko
+            arion.nixosModules.arion
+          ];
+        };
+
+        # ishtar-edge = mkNixOSConfig {
+        #   hostConfig = ./machines/ishtar-edge/configuration.nix;
+        #   hostPlatform = "aarch64-linux";
+        # };
+
         iso1ishtar = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs vars; };
           modules = [
@@ -99,5 +122,9 @@
           ];
         };
       };
+
+      packages.aarch64-linux.oracle-vps-image =
+        self.nixosConfigurations.ishtar-edge.config.system.build.OCIImage;
+
     };
 }
