@@ -1,5 +1,8 @@
-{ ... }:
+{ pkgs, ... }:
 
+let
+  waitForTailscale = import ./wait-for-tailscale.nix { inherit pkgs; };
+in
 {
   virtualisation.arion.projects.fast-note-sync-service.settings = {
     project.name = "fast-note-sync";
@@ -16,5 +19,21 @@
         "/var/lib/fast-note-sync/config:/fast-note-sync/config"
       ];
     };
+  };
+
+  systemd.services.fast-note-sync-service = {
+    after = [
+      "docker.service"
+      "tailscaled.service"
+      "network-online.target"
+    ];
+
+    requires = [
+      "docker.service"
+      "tailscaled.service"
+      "network-online.target"
+    ];
+
+    serviceConfig.ExecStartPre = "${waitForTailscale}/bin/wait-for-tailscale";
   };
 }

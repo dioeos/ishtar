@@ -61,6 +61,8 @@
         colmena = colmena.packages.${system}.colmena;
       };
 
+      checks.${system} = import ./tests { inherit pkgs; };
+
       colmenaHive = colmena.lib.makeHive {
         meta = {
           nixpkgs = pkgs;

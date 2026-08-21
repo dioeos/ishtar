@@ -8,7 +8,8 @@
 
     ../../modules/services/containers.nix
     ../../modules/services/tailscale.nix
-    ../../modules/services/obsidian-fast-note-sync.nix
+
+    ../../modules/services/fast-note-sync
 
     ./disko.nix
     ./hardware-configuration.nix
