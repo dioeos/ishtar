@@ -11,6 +11,11 @@ in
       image = "haierkeys/fast-note-sync-service:latest";
       container_name = "fast-note-sync-service";
       restart = "unless-stopped";
+
+      dns = [
+        "100.100.100.100"
+      ];
+
       ports = [
         "100.78.3.78:9000:9000"
       ];
