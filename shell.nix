@@ -5,6 +5,12 @@ pkgs.mkShell {
     nixd
     nixfmt
     colmena
+
+    (terraform.withPlugins (p: [
+      p.null
+      p.external
+      p.oci
+    ]))
   ];
 
   shellHook = ''

@@ -37,7 +37,14 @@
     }:
     let
       workstation_system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${workstation_system};
+      pkgs = import nixpkgs {
+        system = workstation_system;
+        config = {
+          allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
+            "terraform"
+          ];
+        };
+      };
 
       vars = import ./vars.nix;
 
