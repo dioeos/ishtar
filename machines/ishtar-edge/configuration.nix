@@ -8,11 +8,9 @@
 
 {
   imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
     (modulesPath + "/profiles/qemu-guest.nix")
 
     ./disko.nix
-    ./hardware-configuration.nix
   ];
 
   environment.systemPackages = with pkgs; [
@@ -20,9 +18,9 @@
     vim
   ];
 
-  boot.loader.grub = {
-    efiSupport = true;
-    efiInstallAsRemovable = true;
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = false;
   };
 
   nixpkgs = {

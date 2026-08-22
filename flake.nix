@@ -117,10 +117,14 @@
           ];
         };
 
-        # ishtar-edge = mkNixOSConfig {
-        #   hostConfig = ./machines/ishtar-edge/configuration.nix;
-        #   hostPlatform = "aarch64-linux";
-        # };
+        ishtar-edge = mkNixOSConfig {
+          hostConfig = ./machines/ishtar-edge/configuration.nix;
+          hostPlatform = "aarch64-linux";
+
+          extraModules = [
+            disko.nixosModules.disko
+          ];
+        };
 
         iso1ishtar = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs vars; };

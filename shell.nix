@@ -11,6 +11,8 @@ pkgs.mkShell {
       p.external
       p.oci
     ]))
+
+    jq
   ];
 
   shellHook = ''
