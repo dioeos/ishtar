@@ -1,4 +1,5 @@
 {
+  modulesPath,
   pkgs,
   vars,
   config,
@@ -7,13 +8,22 @@
 
 {
   imports = [
-    ../../modules/nixos/oci-image-memory.nix
+    (modulesPath + "/installer/scan/not-detected.nix")
+    (modulesPath + "/profiles/qemu-guest.nix")
+
+    ./disko.nix
+    ./hardware-configuration.nix
   ];
 
   environment.systemPackages = with pkgs; [
-    git
+    gitMinimal
     vim
   ];
+
+  boot.loader.grub = {
+    efiSupport = true;
+    efiInstallAsRemovable = true;
+  };
 
   nixpkgs = {
     config.allowUnfree = true;
