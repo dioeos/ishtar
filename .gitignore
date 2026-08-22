@@ -1,2 +1,7 @@
 .direnv/
 result
+terraform/*.tfvars
+terraform/.terraform/
+terraform/*.out
+terraform/*.tfstate*
+
