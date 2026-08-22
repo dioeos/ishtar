@@ -1,7 +1,8 @@
 .direnv/
 result
-terraform/*.tfvars
-terraform/.terraform/
-terraform/*.out
-terraform/*.tfstate*
+terraform/oci/*.tfvars
+terraform/oci/.terraform/
+terraform/oci/variables.tf
+terraform/oci/*.out
+terraform/oci/*.tfstate*
 
