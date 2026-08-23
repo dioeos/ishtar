@@ -14,13 +14,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    arion = {
-      url = "github:hercules-ci/arion";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
+    quadlet-nix = {
+      url = "github:SEIAROTg/quadlet-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    home-manager = {
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -31,8 +36,9 @@
       nixpkgs,
       colmena,
       disko,
-      arion,
       sops-nix,
+      quadlet-nix,
+      home-manager,
       ...
     }:
     let
@@ -91,7 +97,8 @@
           imports = [
             ishtar1path
             disko.nixosModules.disko
-            arion.nixosModules.arion
+            quadlet-nix.nixosModules.quadlet
+            home-manager.nixosModules.home-manager
             sops-nix.nixosModules.sops
           ];
 
@@ -134,7 +141,8 @@
           hostPlatform = "x86_64-linux";
 
           extraModules = [
-            arion.nixosModules.arion
+            quadlet-nix.nixosModules.quadlet
+            home-manager.nixosModules.home-manager
           ];
         };
 

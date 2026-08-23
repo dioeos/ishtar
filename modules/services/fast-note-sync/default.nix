@@ -1,42 +1,37 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 let
   waitForTailscale = import ./wait-for-tailscale.nix { inherit pkgs; };
 in
 {
-  virtualisation.arion.projects.fast-note-sync-service.settings = {
-    project.name = "fast-note-sync";
+  systemd.tmpfiles.rules = [
+    "d /var/lib/podman-captain/fast-note-sync 0750 podman-captain podman-captain -"
+    "d /var/lib/podman-captain/fast-note-sync/storage 0750 podman-captain podman-captain -"
+    "d /var/lib/podman-captain/fast-note-sync/config 0750 podman-captain podman-captain -"
+  ];
+  home-manager.users.podman-captain = {
+    imports = [ inputs.quadlet-nix.homeManagerModules.quadlet ];
 
-    services.fast-note-sync.service = {
-      image = "haierkeys/fast-note-sync-service:latest";
-      container_name = "fast-note-sync-service";
-      restart = "unless-stopped";
+    virtualisation.quadlet.containers.fast-note-sync = {
+      autoStart = true;
+      serviceConfig = {
+        RestartSec = "10";
+        Restart = "always";
 
-      dns = [
-        "100.100.100.100"
-      ];
+        ExecStartPre = [
+          "${waitForTailscale}/bin/wait-for-tailscale"
+        ];
+      };
+      containerConfig = {
+        image = "haierkeys/fast-note-sync-service:latest";
+        publishPorts = [ "100.78.3.78:9000:9000" ];
+        userns = "keep-id";
 
-      ports = [
-        "100.78.3.78:9000:9000"
-      ];
-      volumes = [
-        "/var/lib/fast-note-sync/storage:/fast-note-sync/storage"
-        "/var/lib/fast-note-sync/config:/fast-note-sync/config"
-      ];
+        volumes = [
+          "/var/lib/podman-captain/fast-note-sync/storage:/fast-note-sync/storage"
+          "/var/lib/podman-captain/fast-note-sync/config:/fast-note-sync/config"
+        ];
+      };
     };
-  };
-
-  systemd.services.fast-note-sync-service = {
-    after = [
-      "tailscaled.service"
-      "network-online.target"
-    ];
-
-    requires = [
-      "tailscaled.service"
-      "network-online.target"
-    ];
-
-    serviceConfig.ExecStartPre = "${waitForTailscale}/bin/wait-for-tailscale";
   };
 }
