@@ -7,6 +7,8 @@
     ../../modules/services/tailscale.nix
 
     ../../modules/services/fast-note-sync
+    ../../modules/services/vault-warden
+
     ../../modules/services/containers
 
     ./disko.nix
