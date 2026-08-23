@@ -13,6 +13,8 @@ pkgs.mkShell {
     ]))
 
     jq
+    just
+    sops
   ];
 
   shellHook = ''
