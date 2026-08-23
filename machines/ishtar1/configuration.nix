@@ -4,7 +4,7 @@
   imports = [
     ../../modules/nixos/base.nix
 
-    # ../../modules/services/cowsay.nix
+    ../../modules/services/cowsay.nix
 
     ../../modules/services/containers.nix
     ../../modules/services/tailscale.nix
@@ -18,7 +18,7 @@
   networking.hostName = "ishtar1";
 
   sops = {
-    defaultSopsFile = ../../secrets/secrets.yaml;
+    defaultSopsFile = ../../secrets/ishtar-secrets.yaml;
     age.sshKeyPaths = [
       "/etc/ssh/ssh_host_ed25519_key"
     ];

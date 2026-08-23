@@ -10,6 +10,8 @@
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
 
+      ../../modules/services/cowsay.nix
+
     ./disko.nix
   ];
 
@@ -44,7 +46,7 @@
   system.stateVersion = "26.05";
 
   sops = {
-    defaultSopsFile = ../../secrets/secrets.yaml;
+    defaultSopsFile = ../../secrets/ishtar-secrets.yaml;
     age.sshKeyPaths = [
       "/etc/ssh/ssh_host_ed25519_key"
     ];

@@ -1,9 +1,11 @@
 keys:
-  - &dio age1gfc268tsu6waatk7483x4cy8cujxqm5xpwh2ek782wyw58d9h5nstjgr5c
+  - &merle_workstation age1fzzl2wlw3p6ngzerxh3nrhn0fyn3anv3mahsstw3cj7ve22nk3pqka84m8
   - &ishtar1 age182t47ye2rtkqp62rz24zzf6g2thhq5sfr5lcx7w6659lrfmtt90sstv3pm
+  - &ishtar_edge age1y8jplssk5mqzye2jj6epkchaxm4gpayvj53t9wttaqpxz5f3m57svkvd3j
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
       - age:
-          - *dio
+          - *merle_workstation
           - *ishtar1
+          - *ishtar_edge

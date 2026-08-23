@@ -65,6 +65,7 @@
             }
             hostConfig
             sops-nix.nixosModules.sops
+            disko.nixosModules.disko
           ]
           ++ extraModules;
         };
@@ -86,6 +87,7 @@
         };
 
         ishtar1 = {
+          nixpkgs.hostPlatform = "x86_64-linux";
           imports = [
             ishtar1path
             disko.nixosModules.disko
@@ -104,6 +106,26 @@
             ];
           };
         };
+
+        ishtar-edge = {
+          nixpkgs.hostPlatform = "aarch64-linux";
+          imports = [
+            ./machines/ishtar-edge/configuration.nix
+            disko.nixosModules.disko
+            sops-nix.nixosModules.sops
+          ];
+
+          deployment = {
+            targetHost = "150.136.10.248";
+            targetUser = "root";
+            sshOptions = [
+              "-i"
+              "/home/dio/.ssh/oracle_vps"
+              "-o"
+              "IdentitiesOnly=yes"
+            ];
+          };
+        };
       };
 
       nixosConfigurations = {
@@ -112,7 +134,6 @@
           hostPlatform = "x86_64-linux";
 
           extraModules = [
-            disko.nixosModules.disko
             arion.nixosModules.arion
           ];
         };
@@ -120,10 +141,6 @@
         ishtar-edge = mkNixOSConfig {
           hostConfig = ./machines/ishtar-edge/configuration.nix;
           hostPlatform = "aarch64-linux";
-
-          extraModules = [
-            disko.nixosModules.disko
-          ];
         };
 
         iso1ishtar = nixpkgs.lib.nixosSystem {
