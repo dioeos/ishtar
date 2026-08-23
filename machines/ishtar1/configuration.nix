@@ -4,12 +4,10 @@
   imports = [
     ../../modules/nixos/base.nix
 
-    ../../modules/services/cowsay.nix
-
-    ../../modules/services/containers.nix
     ../../modules/services/tailscale.nix
 
     ../../modules/services/fast-note-sync
+    ../../modules/services/containers
 
     ./disko.nix
     ./hardware-configuration.nix

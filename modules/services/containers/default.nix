@@ -6,9 +6,7 @@
   ];
 
   virtualisation = {
-    docker.enable = true;
-    arion = {
-      backend = "docker";
-    };
+    podman.enable = true;
+    arion.backend = "podman-socket";
   };
 }

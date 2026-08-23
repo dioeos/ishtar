@@ -28,13 +28,11 @@ in
 
   systemd.services.fast-note-sync-service = {
     after = [
-      "docker.service"
       "tailscaled.service"
       "network-online.target"
     ];
 
     requires = [
-      "docker.service"
       "tailscaled.service"
       "network-online.target"
     ];

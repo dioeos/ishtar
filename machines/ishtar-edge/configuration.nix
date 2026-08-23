@@ -10,8 +10,6 @@
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
 
-      ../../modules/services/cowsay.nix
-
     ./disko.nix
   ];
 
