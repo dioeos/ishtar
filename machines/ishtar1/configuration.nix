@@ -8,6 +8,7 @@
 
     ../../modules/services/fast-note-sync
     ../../modules/services/vault-warden
+    ../../modules/services/minecraft
 
     ../../modules/services/containers
 
