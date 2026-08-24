@@ -39,6 +39,7 @@
     root = {
       openssh.authorizedKeys.keys = [
         vars.sshPublicKeyIshtar1Root
+        vars.sshPublicKeyIshtar1Recovery
       ];
     };
     ${vars.userName} = {
