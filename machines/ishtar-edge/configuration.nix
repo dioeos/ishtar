@@ -11,6 +11,8 @@
     (modulesPath + "/profiles/qemu-guest.nix")
 
     ./disko.nix
+
+    ../../modules/services/tailscale.nix
   ];
 
   environment.systemPackages = with pkgs; [
@@ -79,12 +81,14 @@
 
   services = {
     openssh = {
+      # enable = true;
       enable = true;
       settings = {
         PermitRootLogin = "prohibit-password";
         PasswordAuthentication = false;
       };
-      openFirewall = true;
+      # openFirewall = true;
+      openFirewall = false;
     };
     fstrim.enable = true;
   };
@@ -92,5 +96,12 @@
   networking = {
     hostName = "ishtar-edge";
     useDHCP = true;
+
+    firewall = {
+      enable = true;
+
+      # allowedTCPPorts = [ 80 443 ];
+      interfaces.tailscale0.allowedTCPPorts = [ 22 ];
+    };
   };
 }
