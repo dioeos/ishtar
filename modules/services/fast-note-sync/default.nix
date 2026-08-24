@@ -1,7 +1,7 @@
 { pkgs, inputs, ... }:
 
 let
-  waitForTailscale = import ./wait-for-tailscale.nix { inherit pkgs; };
+  waitForTailscale = import ../../../utils/wait-for-tailscale.nix { inherit pkgs; };
 in
 {
   systemd.tmpfiles.rules = [

@@ -1,7 +1,7 @@
 { pkgs, config, ... }:
 
 let
-  waitForTailscale = import ./wait-for-tailscale.nix { inherit pkgs; };
+  waitForTailscale = import ../../utils/wait-for-tailscale.nix { inherit pkgs; };
 in
 {
   sops.secrets.tailscale-auth-key = {};
