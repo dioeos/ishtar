@@ -23,7 +23,7 @@ in
       };
       containerConfig = {
         image = "vaultwarden/server:latest";
-        publishPorts = [ "100.78.3.78:8000:8080" ];
+        publishPorts = [ "127.0.0.1:8000:8080" ];
         userns = "keep-id";
 
         environments = {
@@ -35,5 +35,22 @@ in
         ];
       };
     };
+  };
+  systemd.services.vault-warden-tailscale-serve = {
+    description = "Exposes Vaultwarden service with Tailscale Serve";
+
+    wantedBy = [ "multi-user.target" ];
+
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStartPre = [
+        "${waitForTailscale}/bin/wait-for-tailscale"
+      ];
+    };
+
+    script = ''
+      ${pkgs.tailscale}/bin/tailscale serve --https=443 --bg http://127.0.0.1:8000
+    '';
   };
 }
