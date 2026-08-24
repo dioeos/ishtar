@@ -58,7 +58,7 @@
   users.users = {
     root = {
       openssh.authorizedKeys.keys = [
-        vars.sshPublicKeyOracleVps
+        vars.sshPublicKeyIshtarEdgeRoot
       ];
     };
     ${vars.userName} = {
@@ -68,7 +68,7 @@
         "wheel"
       ];
       openssh.authorizedKeys.keys = [
-        vars.sshPublicKeyOracleVpsUser
+        vars.sshPublicKeyIshtarEdgeUser
       ];
       shell = pkgs.zsh;
       hashedPasswordFile = config.sops.secrets.dio-password.path;

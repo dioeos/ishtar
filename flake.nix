@@ -105,12 +105,6 @@
           deployment = {
             targetHost = "192.168.1.51";
             targetUser = "root";
-            sshOptions = [
-              "-i"
-              "/home/dio/.ssh/ishtar"
-              "-o"
-              "IdentitiesOnly=yes"
-            ];
           };
         };
 
@@ -125,12 +119,6 @@
           deployment = {
             targetHost = "150.136.10.248";
             targetUser = "root";
-            sshOptions = [
-              "-i"
-              "/home/dio/.ssh/oracle_vps"
-              "-o"
-              "IdentitiesOnly=yes"
-            ];
           };
         };
       };

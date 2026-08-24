@@ -28,6 +28,7 @@ in
 
         environments = {
           ROCKET_PORT = "8080";
+          EXPERIMENTAL_CLIENT_FEATURE_FLAGS = "ssh-key-vault-item ssh-agent";
         };
 
         volumes = [

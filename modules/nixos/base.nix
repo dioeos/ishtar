@@ -38,7 +38,7 @@
   users.users = {
     root = {
       openssh.authorizedKeys.keys = [
-        vars.sshPublicKeyIshtar
+        vars.sshPublicKeyIshtar1Root
       ];
     };
     ${vars.userName} = {
@@ -49,7 +49,7 @@
         "wheel"
       ];
       openssh.authorizedKeys.keys = [
-        vars.sshPublicKeyIshtarUser
+        vars.sshPublicKeyIshtar1User
       ];
       shell = pkgs.zsh;
       hashedPasswordFile = config.sops.secrets.dio-password.path;
