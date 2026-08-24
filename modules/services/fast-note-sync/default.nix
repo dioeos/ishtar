@@ -16,6 +16,10 @@ in
       type = lib.types.str;
       default = "haierkeys/fast-note-sync-service:latest";
     };
+    autoStart = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -29,7 +33,7 @@ in
       imports = [ inputs.quadlet-nix.homeManagerModules.quadlet ];
 
       virtualisation.quadlet.containers.fast-note-sync = {
-        autoStart = true;
+        autoStart = cfg.autoStart;
         serviceConfig = {
           RestartSec = "10";
           Restart = "always";

@@ -1,6 +1,7 @@
 {
   userName = "dio";
   timeZone = "America/New_York";
+  sshPublicKeyIshtarMachineIso = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAGxIEzoNNfWNfR6FsqjE/97XeiRAzfuivDRIXhvpcAs";
   sshPublicKeyIshtar1Recovery = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBtP/nDg1W/Ic7SSkWPyowyayKyIrS9mUEgpM8uhgJ8I dio@merle";
   sshPublicKeyIshtar1Root = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDOr9F+1npyjYqHt1YwZBYzM7YyCiJRVjht7zU54/C2E";
   sshPublicKeyIshtar1User = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINUaPLZ6SGFKssH+gqARQNOluyqGaTYj+Ohg+Eu9zoCy";

@@ -84,7 +84,7 @@
         colmena = colmena.packages.${workstation_system}.colmena;
       };
 
-      checks.${workstation_system} = import ./tests { inherit pkgs; };
+      checks.${workstation_system} = import ./tests { inherit pkgs inputs; };
 
       colmenaHive = colmena.lib.makeHive {
         meta = {
