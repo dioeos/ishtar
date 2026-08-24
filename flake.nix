@@ -76,6 +76,8 @@
           ++ extraModules;
         };
 
+        tests = import ./tests { inherit pkgs inputs; };
+
       ishtar1path = ./machines/ishtar1/configuration.nix;
     in
     {
@@ -84,7 +86,7 @@
         colmena = colmena.packages.${workstation_system}.colmena;
       };
 
-      checks.${workstation_system} = import ./tests { inherit pkgs inputs; };
+      checks.${workstation_system} = tests;
 
       colmenaHive = colmena.lib.makeHive {
         meta = {
@@ -150,5 +152,10 @@
       packages.aarch64-linux.oracle-vps-image =
         self.nixosConfigurations.ishtar-edge.config.system.build.OCIImage;
 
+      packages.${workstation_system}.tests = pkgs.runCommand "tests" {
+        buildInputs = builtins.attrValues tests;
+      } ''
+        mkdir -p $out
+      '';
     };
 }
