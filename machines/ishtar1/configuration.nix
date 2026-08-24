@@ -6,7 +6,6 @@
 
     ../../modules/services/tailscale.nix
 
-    ../../modules/services/fast-note-sync
     ../../modules/services/vault-warden
     ../../modules/services/minecraft
 
@@ -14,6 +13,9 @@
 
     ./disko.nix
     ./hardware-configuration.nix
+
+    # === SERVICE MODULES ===
+    ../../modules/services/fast-note-sync
   ];
 
   networking.hostName = "ishtar1";
@@ -27,5 +29,9 @@
     secrets.dio-password = {
       neededForUsers = true;
     };
+  };
+
+  services = {
+    fast-note-sync.enable = true;
   };
 }

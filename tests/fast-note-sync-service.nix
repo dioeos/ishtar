@@ -2,7 +2,7 @@
 
 let
   tailscaleAddress = "100.78.3.78";
-  waitForTailscale = import ../modules/services/fast-note-sync/wait-for-tailscale.nix {
+  waitForTailscale = import ../utils/wait-for-tailscale.nix {
     inherit pkgs;
   };
 in
