@@ -18,6 +18,10 @@ resource "oci_core_instance" "ishtar-edge-nix-instance" {
   create_vnic_details {
     assign_public_ip = true
     subnet_id = oci_core_subnet.public.id
+
+    nsg_ids = [
+      oci_core_network_security_group.ishtar-edge-nsg.id
+    ]
   }
 
   metadata = {

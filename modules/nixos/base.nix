@@ -10,6 +10,7 @@
     git
     ghostty.terminfo
     vim
+    wireguard-tools
   ];
 
   boot.loader = {
@@ -77,7 +78,6 @@
     networkmanager.enable = true;
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 25565 ];
     };
   };
 

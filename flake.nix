@@ -119,7 +119,7 @@
           ];
 
           deployment = {
-            targetHost = "150.136.10.248";
+            targetHost = "100.75.15.36";
             targetUser = "root";
           };
         };
