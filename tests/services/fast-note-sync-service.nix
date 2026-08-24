@@ -9,8 +9,16 @@ let
     name = "localhost/fast-note-sync-test";
     tag = "latest";
 
+    copyToRoot = pkgs.buildEnv {
+      name = "fast-note-sync-test-root";
+      paths = [
+        pkgs.busybox
+      ];
+      pathsToLink = [ "/bin" ];
+    };
+
     config.Cmd = [
-      "${pkgs.coreutils}/bin/sleep"
+      "/bin/sleep"
       "infinity"
     ];
   };
@@ -36,18 +44,33 @@ pkgs.testers.runNixOSTest {
     home-manager.extraSpecialArgs = { inherit inputs; };
     services.fast-note-sync = {
       enable = true;
-      image = "fast-note-sync-test:latest";
+      image = "localhost/fast-note-sync-test:latest";
       autoStart = false;
     };
   };
 
   testScript = ''
     machine.wait_for_unit("multi-user.target")
+    machine.succeed("systemctl start network-online.target")
+
     podman_cap_uid = machine.succeed(
       "id -u podman-captain"
     ).strip()
+
     machine.succeed(
       f"systemctl start user@{podman_cap_uid}.service"
+    )
+
+    machine.succeed(
+      "sudo -u podman-captain "
+      f"XDG_RUNTIME_DIR=/run/user/{podman_cap_uid} "
+      "podman load -i ${testImage}"
+    )
+
+    machine.succeed(
+      "sudo -u podman-captain "
+      f"XDG_RUNTIME_DIR=/run/user/{podman_cap_uid} "
+      "podman image exists localhost/fast-note-sync-test:latest"
     )
 
     machine.succeed(
@@ -100,6 +123,19 @@ pkgs.testers.runNixOSTest {
       "--property=SubState --value "
       "| grep -v '^start-pre$'",
       timeout=10
+    )
+
+    machine.wait_until_succeeds(
+      "sudo -u podman-captain "
+      f"XDG_RUNTIME_DIR=/run/user/{podman_cap_uid} "
+      "systemctl --user is-active --quiet fast-note-sync.service",
+      timeout=10
+    )
+
+    machine.succeed(
+      "sudo -u podman-captain "
+      f"XDG_RUNTIME_DIR=/run/user/{podman_cap_uid} "
+      "podman container exists fast-note-sync"
     )
   '';
 }
