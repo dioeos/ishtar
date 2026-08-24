@@ -37,21 +37,4 @@ in
       };
     };
   };
-  systemd.services.vault-warden-tailscale-serve = {
-    description = "Exposes Vaultwarden service with Tailscale Serve";
-
-    wantedBy = [ "multi-user.target" ];
-
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStartPre = [
-        "${waitForTailscale}/bin/wait-for-tailscale"
-      ];
-    };
-
-    script = ''
-      ${pkgs.tailscale}/bin/tailscale serve --https=443 --bg http://127.0.0.1:8000
-    '';
-  };
 }

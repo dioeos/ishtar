@@ -24,7 +24,7 @@ in
       };
       containerConfig = {
         image = "haierkeys/fast-note-sync-service:latest";
-        publishPorts = [ "100.78.3.78:9000:9000" ];
+        publishPorts = [ "127.0.0.1:9000:9000" ];
         userns = "keep-id";
 
         volumes = [

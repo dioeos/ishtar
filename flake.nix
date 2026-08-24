@@ -105,6 +105,12 @@
           deployment = {
             targetHost = "192.168.1.51";
             targetUser = "root";
+            sshOptions = [
+              "-i"
+              "/home/dio/.ssh/ishtar1_recovery"
+              "-o"
+              "IdentitiesOnly=yes"
+            ];
           };
         };
 
