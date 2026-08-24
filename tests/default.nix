@@ -1,7 +1,10 @@
 { pkgs, inputs }:
 
-{
-  waits-for-tailscale = import ./waits-for-tailscale.nix { inherit pkgs; };
-  fast-note-sync-service = import ./fast-note-sync-service.nix { inherit pkgs inputs; };
-  containers = import ./containers.nix { inherit pkgs inputs; };
-}
+let
+  containerTests = import ./containers { inherit pkgs inputs; };
+  utilTests = import ./util { inherit pkgs; };
+  serviceTests = import ./services { inherit pkgs inputs; };
+in
+containerTests
+// utilTests
+// serviceTests

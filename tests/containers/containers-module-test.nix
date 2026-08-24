@@ -9,7 +9,7 @@ pkgs.testers.runNixOSTest {
     imports = [
       inputs.home-manager.nixosModules.home-manager
       inputs.quadlet-nix.nixosModules.quadlet
-      ../modules/services/containers
+      ../../modules/services/containers
     ];
   };
 
@@ -29,3 +29,4 @@ pkgs.testers.runNixOSTest {
     )
   '';
 }
+

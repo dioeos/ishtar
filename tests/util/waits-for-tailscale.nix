@@ -2,7 +2,7 @@
 
 let
   tailscaleAddress = "100.78.3.78";
-  waitForTailscale = import ../utils/wait-for-tailscale.nix { inherit pkgs; };
+  waitForTailscale = import ../../utils/wait-for-tailscale.nix { inherit pkgs; };
 in
 
 pkgs.testers.runNixOSTest {
