@@ -30,14 +30,33 @@
 
           PVP = "TRUE";
 
+          MODRINTH_ALLOWED_VERSION_TYPE = "beta";
+
           MODRINTH_PROJECTS = ''
             fabric-api
             lithium
             mods-command
             adventure-platform-mod
-            discord-mc-chat
+            discord-mc-chat:2.7.1-compat.2
             simple-voice-chat
             client-id
+            sound-physics-remastered:beta
+            cloth-config
+            distanthorizons:beta
+            dynamic-lights-creepermeyt
+            no-enderman-grief
+
+            yacl
+            useless-reptile
+
+            tectonic
+            lithostitched
+            terralith:2.6.4
+
+            combatlog
+
+            origins-legacy
+            origins-legacy-classes
           '';
         };
 
