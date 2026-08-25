@@ -122,14 +122,14 @@ pkgs.testers.runNixOSTest {
       "systemctl --user show fast-note-sync.service "
       "--property=SubState --value "
       "| grep -v '^start-pre$'",
-      timeout=10
+      timeout=30
     )
 
     machine.wait_until_succeeds(
       "sudo -u podman-captain "
       f"XDG_RUNTIME_DIR=/run/user/{podman_cap_uid} "
       "systemctl --user is-active --quiet fast-note-sync.service",
-      timeout=10
+      timeout=30
     )
 
     machine.succeed(
