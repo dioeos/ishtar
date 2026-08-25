@@ -15,6 +15,33 @@
       WHITELIST=${config.sops.placeholder.minecraft-whitelist}
     '';
   };
+
+  sops.secrets.dmcc-token = {};
+  sops.secrets.discord-channel-id = {};
+  sops.templates."discord-mc-chat.json" = {
+    owner = "podman-captain";
+    group = "podman-captain";
+    mode = "0400";
+
+    content = ''
+      {
+        "generic": {
+          "language": "en_us",
+          "botToken": "${config.sops.placeholder.dmcc-token}",
+          "showServerStatusInBotStatus": true,
+          "botPlayingActivity": "Minecraft (%onlinePlayerCount%)",
+          "useWebhook": true,
+          "channelId": "${config.sops.placeholder.discord-channel-id}",
+          "broadcastChatMessages": false,
+          "broadcastPlayerCommandExecution": false,
+          "broadcastSlashCommandExecution": false,
+          "announceDeathMessages": false,
+          "announceAdvancements": false
+        }
+      }
+    '';
+  };
+
   home-manager.users.podman-captain = {
     imports = [ inputs.quadlet-nix.homeManagerModules.quadlet ];
 
@@ -58,6 +85,7 @@
 
         volumes = [
           "/var/lib/podman-captain/minecraft-server/data:/data"
+          "${config.sops.templates."discord-mc-chat.json".path}:/data/config/discord-mc-chat.json:ro"
         ];
       };
     };
