@@ -42,6 +42,15 @@
     '';
   };
 
+  sops.secrets.client-id-config = {
+    owner = "podman-captain";
+    group = "podman-captain";
+    mode = "0400";
+    sopsFile = ../../../secrets/client-id-config.json;
+    format = "json";
+    key = "";
+  };
+
   home-manager.users.podman-captain = {
     imports = [ inputs.quadlet-nix.homeManagerModules.quadlet ];
 
@@ -80,6 +89,7 @@
             adventure-platform-mod
             discord-mc-chat
             simple-voice-chat
+            client-id
           '';
         };
 
@@ -90,6 +100,7 @@
         volumes = [
           "/var/lib/podman-captain/minecraft-server/data:/data"
           "${config.sops.templates."discord-mc-chat.json".path}:/data/config/discord-mc-chat.json:ro"
+          "${config.sops.secrets."client-id-config".path}:/data/config/client-id-config.json:ro"
         ];
       };
     };
