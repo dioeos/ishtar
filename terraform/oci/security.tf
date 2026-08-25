@@ -38,3 +38,21 @@ resource "oci_core_network_security_group_security_rule" "minecraft_ingress" {
     }
   }
 }
+
+resource "oci_core_network_security_group_security_rule" "minecraft_simple_voice_chat_ingress" {
+  network_security_group_id = oci_core_network_security_group.ishtar-edge-nsg.id
+
+  direction = "INGRESS"
+  protocol = "17"
+  source = "0.0.0.0/0"
+  source_type = "CIDR_BLOCK"
+
+  udp_options {
+    destination_port_range {
+      min = 24454
+      max = 24454
+    }
+  }
+
+  description = "Allow Minecraft Simple Voice Chat"
+}

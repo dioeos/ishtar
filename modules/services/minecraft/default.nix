@@ -49,7 +49,10 @@
       autoStart = true;
       containerConfig = {
         image = "docker.io/itzg/minecraft-server:latest";
-        publishPorts = [ "25565:25565" ];
+        publishPorts = [
+          "25565:25565"
+          "10.100.0.2:24454:24454/udp"
+        ];
         userns = "keep-id";
 
         environments = {
@@ -76,6 +79,7 @@
             mods-command
             adventure-platform-mod
             discord-mc-chat
+            simple-voice-chat
           '';
         };
 

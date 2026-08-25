@@ -106,7 +106,7 @@
       enable = true;
 
       # allowedTCPPorts = [ 80 443 ];
-      allowedUDPPorts = [ 51820 ];
+      allowedUDPPorts = [ 51820 24454 ];
       allowedTCPPorts = [ 25565 ];
       interfaces.tailscale0.allowedTCPPorts = [ 22 ];
     };
@@ -135,6 +135,27 @@
             -d 10.100.0.2 \
             --dport 25565 \
             -j MASQUERADE
+
+          # simple voice chat UDP 
+          ${pkgs.iptables}/bin/iptables -t nat -A PREROUTING \
+            -i enp0s6 \
+            -p udp \
+            --dport 24454 \
+            -j DNAT --to-destination 10.100.0.2:24454
+
+          ${pkgs.iptables}/bin/iptables -A FORWARD \
+            -i enp0s6 \
+            -p udp \
+            -d 10.100.02 \
+            --dport 24454 \
+            -j ACCEPT
+
+          ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING \
+            -o wg-edge0 \
+            -p udp \
+            -d 10.100.0.2 \
+            --dport 24454 \
+            -j MASQUERADE
         '';
 
         postShutdown = ''
@@ -149,6 +170,29 @@
             -p tcp \
             -d 10.100.0.2 \
             --dport 25565 \
+            -j MASQUERADE
+
+          # simple Voice Chat UDP
+          ${pkgs.iptables}/bin/iptables -t nat -D PREROUTING \
+            -i enp0s6 \
+            -p udp \
+            --dport 24454 \
+            -j DNAT \
+            --to-destination 10.100.0.2:24454
+
+          ${pkgs.iptables}/bin/iptables -D FORWARD \
+            -i enp0s6 \
+            -o wg-edge0 \
+            -p udp \
+            -d 10.100.0.2 \
+            --dport 24454 \
+            -j ACCEPT
+
+          ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING \
+            -o wg-edge0 \
+            -p udp \
+            -d 10.100.0.2 \
+            --dport 24454 \
             -j MASQUERADE
         '';
 

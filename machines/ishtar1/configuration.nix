@@ -43,7 +43,7 @@
 
   networking = {
     firewall = {
-      allowedUDPPorts = [ 51820 ];
+      allowedUDPPorts = [ 51820 24454 ];
       allowedTCPPorts = [ 25565 ];
       interfaces.wg-edge0.allowedTCPPorts = [ 25565 ];
     };
