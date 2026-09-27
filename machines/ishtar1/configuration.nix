@@ -21,6 +21,7 @@
 
     # === SERVICE MODULES ===
     ../../modules/services/fast-note-sync
+    ../../modules/services/homeassistant
   ];
 
   networking.hostName = "ishtar1";
@@ -39,6 +40,7 @@
 
   services = {
     fast-note-sync.enable = true;
+    homeassistant.enable = true;
   };
 
   networking = {

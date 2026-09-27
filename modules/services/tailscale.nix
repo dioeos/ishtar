@@ -36,6 +36,11 @@ in
       --set-path=/notes \
       --bg \
       http://127.0.0.1:9000
+
+    ${pkgs.tailscale}/bin/tailscale serve \
+      --https=443 \
+      --bg \
+      http://127.0.0.1:8123
   '';
 };
 }
